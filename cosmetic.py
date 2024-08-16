@@ -9,7 +9,12 @@ class Cosmetic():
 
     def preprocess_image(self):
         """Enhancing the photo to make the conversion easier"""
-        img = Image.open(self.ingredients_image)
+
+        try:
+            img = Image.open(self.ingredients_image)
+        except FileNotFoundError:
+            raise FileNotFoundError(f"The file at path {self.ingredients_image} was not found.")
+
         # Convert to grayscale
         img = img.convert('L')
 
