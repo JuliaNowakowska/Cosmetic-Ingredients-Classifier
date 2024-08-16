@@ -1,23 +1,35 @@
 from PIL import Image, ImageEnhance, ImageFilter
 import pytesseract
 
-def preprocess_img(img):
-    # convert to grayscale
-    img = img.convert('L')
 
-    # enhence contrast
-    enhancer = ImageEnhance.Contrast(img)
-    img = enhancer.enhance(2)
+class ImageProcessor:
+    def __init__(self, image_path):
+        self.image_path = image_path
+        self.image = Image.open(image_path)
 
-    # sharpness filter
-    img = img.filter(ImageFilter.SHARPEN)
+    def preprocess_img(self):
+        """Preprocessing the image to make it easier for conversion."""
+        # Convert to grayscale
+        img = self.image.convert('L')
 
-    return img
+        # Enhance contrast
+        enhancer = ImageEnhance.Contrast(img)
+        img = enhancer.enhance(2)
 
-def img_to_text(image_path):
-    image = Image.open(image_path)
-    image = preprocess_img(image)
+        # Apply sharpness filter
+        img = img.filter(ImageFilter.SHARPEN)
 
-    text = pytesseract.image_to_string(image)
+        return img
 
-    return text
+    def img_to_text(self):
+        """Convert the preprocessed image to text."""
+        preprocessed_image = self.preprocess_img()
+        text = pytesseract.image_to_string(preprocessed_image)
+        return text
+
+
+if __name__ == "__main__":
+    image_path = '/path/to/image.png'
+    processor = ImageProcessor(image_path)
+    text = processor.img_to_text()
+    print(text)
