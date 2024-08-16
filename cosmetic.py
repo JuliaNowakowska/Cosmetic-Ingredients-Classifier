@@ -8,8 +8,9 @@ class Cosmetic():
         self.ingredients = None
 
     def preprocess_image(self):
-        """Enhancing the photo to make the conversion easier"""
-
+        """
+        Enhancing the photo to make the conversion easier
+        """
         try:
             img = Image.open(self.ingredients_image)
         except FileNotFoundError:
@@ -20,7 +21,8 @@ class Cosmetic():
 
         # Enhance contrast
         enhancer = ImageEnhance.Contrast(img)
-        img = enhancer.enhance(2)
+        contrast_enhancement = 2
+        img = enhancer.enhance(contrast_enhancement)
 
         # Apply sharpness filter
         img = img.filter(ImageFilter.SHARPEN)
@@ -34,6 +36,9 @@ class Cosmetic():
         return ingredients_text
 
     def preprocess_ingredients(self):
+        """
+        Cleaning extracted text to get a list of ingredients.
+        """
         text = self.get_ingredients()
 
         # Remove newlines and extra spaces
