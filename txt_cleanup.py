@@ -7,8 +7,11 @@ class Cosmetic:
         self.processed_ingredients = None  # Initialize the attribute
 
     def preprocess_ingredients(self):
+        # Remove newlines and extra spaces
+        text = self.raw_ingredients.replace('\n', ' ').replace('\r', ' ')
+
         # Convert to lowercase
-        text = self.raw_ingredients.lower()
+        text = text.lower()
 
         # Remove punctuation
         text = text.translate(str.maketrans('', '', string.punctuation))
@@ -19,4 +22,4 @@ class Cosmetic:
         # Join ingredients with a single space and save to self.processed_ingredients
         self.processed_ingredients = ' '.join(ingredient_list)
 
-        return self.processed_ingredients
+        return
